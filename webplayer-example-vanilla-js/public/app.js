@@ -1,9 +1,10 @@
 import { apiToken } from './token.sample.js';
-// import CorelliumWebplayer from '@corellium/webplayer-client'
-import CorelliumWebplayer from './build/index.min.js';
+
+const CorelliumWebplayer = window.CorelliumWebplayer.default;
+
 
 const deviceId = 'Your device ID';
-const corelliumDomain = 'The Corellium domain you are connecting to';
+const corelliumDomain = 'https://app.corellium.co';
 const projectId = 'Your project ID';
 const features = {
   apps: true,

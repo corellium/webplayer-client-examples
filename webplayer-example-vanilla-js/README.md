@@ -74,6 +74,7 @@ You can incude code that handles loading and error conditions.
 <head>
   <!-- app.js will contain the client JS code -->
   <script src="app.js" type="module"></script>
+  <script src="https://unpkg.com/@corellium/corellium-webplayer@1.0.10/dist/index.global.js"></script>
 </head>
 <body>
   <h2>Demo</h2>
@@ -117,6 +118,9 @@ Once you have a JWT you can now instantiate the Webplayer.
 ```js
 // now that we have a JWT, set up the webplayer
 // pass the id for the div that will hold the iframe as `containerId`
+
+const CorelliumWebplayer = window.CorelliumWebplayer.default;
+
 const webplayer = new corelliumWebplayer({
   token,
   domain: corelliumDomain,
