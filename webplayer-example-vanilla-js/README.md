@@ -4,19 +4,19 @@ The Corellium Webplayer Client allows you to host a Corellium device on your web
 
 ## Prerequisites
 
-Your domain must be allowed to use the Webplayer before you begin. Please contact 
+Your domain must be allowed to use the Webplayer before you begin. Please contact
 Corellium Sales to enable the Webplayer feature.
 
 Once you have the feature activated on your account you would need to add allowed domains in the Profile section of your account
 
 ![account profile](domain-image.png)
 
-Your website will have to authenticate with Corellium's APIs using an API token. 
+Your website will have to authenticate with Corellium's APIs using an API token.
 You can generate an API token using the domain admin interface.
 
 Your API token should be kept private and secure at all times.
 
-In order to use the Webplayer you will need to exchange the API token for a JWT. 
+In order to use the Webplayer you will need to exchange the API token for a JWT.
 You can do this by creating an API proxy in Express.js or another server-side language.
 
 ## Server-side app code
@@ -37,7 +37,7 @@ app.post('/api/auth', jsonParser, async (req, res) => {
       headers: {
         'Content-Type': 'application/json',
         // your API token
-        'Authorization': req.body.token, 
+        'Authorization': req.body.token,
       },
       body: JSON.stringify({
         // you must create the project and instance first before you can use the Webplayer
@@ -46,7 +46,7 @@ app.post('/api/auth', jsonParser, async (req, res) => {
         instanceId: req.body.instanceId,
         expiresIn: 18000,
         // a list of features you would like enabled in the Webplayer
-        features: req.body.features, 
+        features: req.body.features,
       }),
       agent: httpsAgent,
     });
@@ -66,9 +66,9 @@ app.post('/api/auth', jsonParser, async (req, res) => {
 
 Your HTML should include an element to contain the Corellium iframe. An example is shown below.
 
-When the iframe is loaded it will replace the contents of "container" div with the Corellium Webplayer webpage. 
+When the iframe is loaded it will replace the contents of "container" div with the Corellium Webplayer webpage.
 
-You can incude code that handles loading and error conditions.
+You can include code that handles loading and error conditions.
 
 ```html
 <head>
@@ -131,8 +131,8 @@ const webplayer = new corelliumWebplayer({
 
 ## Webplayer Events
 
-The Webplayer will emit events when certain things occur, such as on successful startup or error. 
- 
+The Webplayer will emit events when certain things occur, such as on successful startup or error.
+
 You can use the `.on()` method to register event listeners (one listener callback per event type).
 
 ```js

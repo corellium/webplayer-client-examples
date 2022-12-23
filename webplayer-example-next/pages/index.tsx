@@ -77,6 +77,7 @@ const Home: NextPage = () => {
         body: JSON.stringify({
           token: process.env.ACCESS_TOKEN,
           projectId,
+          instanceId: deviceId,
           features,
         }),
       });

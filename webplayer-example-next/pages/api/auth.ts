@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 type Data = {
@@ -6,7 +5,7 @@ type Data = {
   error?: string;
 };
 
-const LOGIN_URL = 'https://ci-1.corellium.co/api/v1/webplayer'; // this domain would be https://app.corellium.co/api/v1/webplayer in production
+const LOGIN_URL = 'https://example.corellium.dev/api/v1/webplayer'; // example for this domain would be https://app.corellium.co/api/v1/webplayer in production
 
 const defaultFeatures = {
   powerManagement: true,
@@ -23,7 +22,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { token, projectId, features } = req.body;
+  const { token, instanceId, projectId, features } = req.body;
 
   if (!token || !projectId) {
     res.status(400).json({ error: 'Missing required parameters' });
@@ -36,9 +35,10 @@ export default async function handler(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token,
+          Authorization: token,
         },
         body: JSON.stringify({
+          instanceId,
           projectId,
           expiresIn: 18000,
           features: {

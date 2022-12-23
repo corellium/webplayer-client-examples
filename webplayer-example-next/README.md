@@ -60,9 +60,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { token, projectId, features } = req.body;
+  const { token, projectId, instanceId, features } = req.body;
 
-  if (!token || !projectId || !features) {
+  if (!token || !projectId || !features || !instanceId) {
     res.status(400).json({ error: 'Missing required parameters' });
     return;
   }
@@ -77,6 +77,7 @@ export default async function handler(
         },
         body: JSON.stringify({
           projectId,
+          instanceId,
           expiresIn: 18000,
           features,
         }),
@@ -118,6 +119,7 @@ const res = await fetch('/api/auth', {
   body: JSON.stringify({
     token: process.env.ACCESS_TOKEN,
     projectId: 'You project ID',
+    instanceId: 'Your device ID',
     features: 'You requested features',
   }),
 });
