@@ -152,7 +152,12 @@ const Home: NextPage = () => {
           <div className={styles.features}>
             {Object.keys(features).map((feature, index) => (
               <div className={styles.featuresWrapper} key={index}>
-                <input type="checkbox" name={feature} id={feature} />
+                <input
+                  type="checkbox"
+                  name={feature}
+                  id={feature}
+                  defaultChecked={features[feature as keyof typeof features]}
+                />
                 <label className={styles.label} htmlFor={feature}>
                   {feature}
                 </label>
