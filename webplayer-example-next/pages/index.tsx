@@ -5,21 +5,6 @@ import type { FormEventHandler } from 'react';
 import styles from '../styles/Home.module.css';
 import Webplayer from '@corellium/corellium-webplayer';
 
-const features = {
-  connect: true,
-  files: true,
-  apps: true,
-  network: true,
-  coretrace: true,
-  messaging: true,
-  settings: true,
-  frida: true,
-  console: true,
-  portForwarding: true,
-  sensors: true,
-  snapshots: true,
-};
-
 type TParams = {
   projectId: string;
   corelliumDomain: string;
@@ -33,42 +18,38 @@ type TParams = {
 const Home: NextPage = () => {
   const [text, setText] = useState('Connect');
   const [show, setShow] = useState(false);
+  const [inputs, setInputs] = useState({
+    projectId: '',
+    deviceId: '',
+    corelliumDomain: '',
+    containerId: 'container',
+  });
+  const [features, setFeatures] = useState({
+    connect: true,
+    files: true,
+    apps: true,
+    network: true,
+    coretrace: true,
+    messaging: true,
+    settings: true,
+    frida: true,
+    console: true,
+    portForwarding: true,
+    sensors: true,
+    snapshots: true,
+  });
 
   const handleFormSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     setShow(false);
     setText('Connecting...');
 
-    const formData = new FormData(e.target as HTMLFormElement);
-    const formProps = Object.fromEntries(formData);
-
-    const {
-      features,
-      projectId,
-      deviceId,
-      corelliumDomain,
-      containerId,
-    }: TParams = Object.keys(formProps).reduce((params, formInput) => {
-      if (formProps[formInput] === 'on') {
-        return {
-          ...params,
-          features: {
-            // @ts-ignore
-            ...params.features,
-            [formInput]: true,
-          },
-        };
-      }
-
-      return {
-        ...params,
-        [formInput]: formProps[formInput],
-      };
-    }, {}) as TParams;
+    const { projectId, deviceId, corelliumDomain, containerId } =
+      inputs as TParams;
 
     try {
       setText('Getting token...');
-      // get JWT using token
+      // get JWT using access token
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: {
@@ -129,20 +110,44 @@ const Home: NextPage = () => {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label htmlFor="projectId">Project ID</label>
-              <input type="text" name="projectId" />
+              <input
+                type="text"
+                name="projectId"
+                onChange={(e) =>
+                  setInputs({ ...inputs, projectId: e.target.value })
+                }
+              />
             </div>
             <div className={styles.field}>
               <label htmlFor="corelliumDomain">Corellium Domain</label>
-              <input type="text" name="corelliumDomain" />
+              <input
+                type="text"
+                name="corelliumDomain"
+                onChange={(e) =>
+                  setInputs({ ...inputs, projectId: e.target.value })
+                }
+              />
             </div>
             <div className={styles.field}>
               <label htmlFor="deviceId">Device ID</label>
-              <input type="text" name="deviceId" />
+              <input
+                type="text"
+                name="deviceId"
+                onChange={(e) =>
+                  setInputs({ ...inputs, projectId: e.target.value })
+                }
+              />
             </div>
 
             <div className={styles.field}>
               <label htmlFor="containerId">Container ID</label>
-              <input type="text" name="containerId" />
+              <input
+                type="text"
+                name="containerId"
+                onChange={(e) =>
+                  setInputs({ ...inputs, projectId: e.target.value })
+                }
+              />
             </div>
             <button className={styles.btn} type="submit">
               Connect
@@ -156,7 +161,13 @@ const Home: NextPage = () => {
                   type="checkbox"
                   name={feature}
                   id={feature}
-                  defaultChecked={features[feature as keyof typeof features]}
+                  checked={features[feature as keyof typeof features]}
+                  onChange={(e) =>
+                    setFeatures({
+                      ...features,
+                      [feature]: e.target.checked,
+                    })
+                  }
                 />
                 <label className={styles.label} htmlFor={feature}>
                   {feature}
