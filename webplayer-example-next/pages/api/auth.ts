@@ -5,7 +5,7 @@ type Data = {
   error?: string;
 };
 
-const LOGIN_URL = 'https://example.corellium.dev/api/v1/webplayer'; // example for this domain would be https://app.corellium.co/api/v1/webplayer in production
+const LOGIN_URL = 'https://example.corellium.com/api/v1/webplayer'; // example for this domain would be https://app.corellium.co/api/v1/webplayer in production
 
 const defaultFeatures = {
   powerManagement: true,
