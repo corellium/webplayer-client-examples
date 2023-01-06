@@ -47,7 +47,7 @@ yarn dev
 The web server should start running on `localhost:3000`.
 
 1. Click on the instantiated web server.
-    ![account profile](public/configure-server.png)
+    ![configure the server](public/configure-server.png)
 
 2. Add your Project ID, Corellium Domain, Device ID, and Container ID then choose which features to include.
    
