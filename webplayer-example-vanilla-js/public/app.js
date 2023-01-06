@@ -1,4 +1,4 @@
-import { apiToken } from './token.sample.js';
+import { apiToken } from './token.js';
 
 const CorelliumWebplayer = window.CorelliumWebplayer.default;
 
