@@ -56,7 +56,6 @@ const Home: NextPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          token: process.env.ACCESS_TOKEN,
           projectId,
           instanceId: deviceId,
           features,
