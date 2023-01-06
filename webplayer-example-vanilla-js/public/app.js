@@ -43,6 +43,7 @@ const containerId = 'container';
         },
         body: JSON.stringify({
           token: apiToken,
+          deviceId,
           projectId,
           features,
         }),
