@@ -22,9 +22,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { token, instanceId, projectId, features } = req.body;
+  const { instanceId, projectId, features } = req.body;
 
-  if (!token || !projectId) {
+  if (!projectId) {
     res.status(400).json({ error: 'Missing required parameters' });
     return;
   }
@@ -35,7 +35,7 @@ export default async function handler(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: token,
+          Authorization: process.env.ACCESS_TOKEN,
         },
         body: JSON.stringify({
           instanceId,
