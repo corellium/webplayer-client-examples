@@ -16,7 +16,7 @@ You can generate an API token using the domain admin interface.
 
 Your API token should be kept private and secure at all times.
 
-In order to use the Webplayer you will need to exchange the API token for a JWT.
+To use the Webplayer you will need to exchange the API token for a JWT.
 
 ---
 
@@ -24,7 +24,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First install the Corellium webplayer [package](https://www.npmjs.com/package/@corellium/corellium-webplayer)
+### Installing the Corellium Webplayer
+Install the [Webplayer package](https://www.npmjs.com/package/@corellium/corellium-webplayer).
 
 ```bash
 npm install @corellium/corellium-webplayer
@@ -32,15 +33,29 @@ npm install @corellium/corellium-webplayer
 yarn add @corellium/corellium-webplayer
 ```
 
-Then run the development server:
+### Running the Webplayer
 
+After the package has been successfully installed, run the development server.
 ```bash
 npm run dev
 # or
 yarn dev
 ```
 
-## Server-side app code
+### Configuring the Webplayer
+
+The web server should start running on `localhost:3000`.
+
+1. Click on the instantiated web server.
+    ![configure the server](public/configure-server.png)
+
+2. Add your Project ID, Corellium Domain, Device ID, and Container ID then choose which features to include.
+   
+    The Corellium Domain is referenced in the web interface URL. You can find your Project ID and Instance ID using any of our APIs.
+
+    The Container ID can be any unique identifier.
+
+## Server-Side App Code
 
 You can use code similar to this to convert your API token to a JWT for the user to authenticate with the Webplayer.
 
@@ -99,9 +114,9 @@ export default async function handler(
 
 ```
 
-## Client-side app code
+## Client-side App Code
 
-You can check out the example [client side code](pages/index.tsx) for how to use the Webplayer in your app.
+You can check out the example [client-side code](pages/index.tsx) for how to use the Webplayer in your app.
 
 ## Obtaining the JWT
 
@@ -135,7 +150,7 @@ Once you have a JWT you can now instantiate the Webplayer.
 
 import Webplayer from '@corellium/corellium-webplayer';
 
-// now that we have a JWT, set up the webplayer
+// now that we have a JWT, set up the Webplayer
 // pass the id for the div that will hold the iframe as `containerId`
 const webplayer = new Webplayer({
   token,
