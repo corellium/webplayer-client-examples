@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css';
 import Webplayer from '@corellium/corellium-webplayer';
 
 const Home: NextPage = () => {
-  const [text, setText] = useState('Add your endpoint and Press Connect');
+  const [text, setText] = useState('Add your endpoint and press Connect');
   const [show, setShow] = useState(false);
   const [endpoint, setEndpoint] = useState('');
   const [features, setFeatures] = useState({
