@@ -5,8 +5,6 @@ type Data = {
   error?: string;
 };
 
-const LOGIN_URL = 'https://example.corellium.com/api/v1/webplayer'; // example for this domain would be https://app.corellium.co/api/v1/webplayer in production
-
 const defaultFeatures = {
   powerManagement: true,
   deviceControl: true,
@@ -22,7 +20,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { instanceId, projectId, features } = req.body;
+  const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+
+  const { instanceId, projectId, domain, features } = body;
+
+  const LOGIN_URL = `${domain}/api/v1/webplayer`;
 
   if (!projectId) {
     res.status(400).json({ error: 'Missing required parameters' });
@@ -35,7 +37,7 @@ export default async function handler(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: process.env.ACCESS_TOKEN,
+          Authorization: 'my_api_token', // Add your API token
         },
         body: JSON.stringify({
           instanceId,
@@ -54,7 +56,7 @@ export default async function handler(
 
       return;
     } catch (err: unknown) {
-      console.log('webplayer ERROR: ', err);
+      console.log('ERROR creating session: ', err);
       res.status(500).send({ error: 'ERROR getting token from the server' });
     }
   }
