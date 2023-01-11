@@ -1,29 +1,13 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
 import Head from 'next/head';
-import type { FormEventHandler } from 'react';
 import styles from '../styles/Home.module.css';
 import Webplayer from '@corellium/corellium-webplayer';
 
-type TParams = {
-  projectId: string;
-  corelliumDomain: string;
-  deviceId: string;
-  containerId: string;
-  features: {
-    [key: string]: boolean;
-  };
-};
-
 const Home: NextPage = () => {
-  const [text, setText] = useState('Connect');
+  const [text, setText] = useState('Add your endpoint and Press Connect');
   const [show, setShow] = useState(false);
-  const [inputs, setInputs] = useState({
-    projectId: '',
-    deviceId: '',
-    corelliumDomain: '',
-    containerId: 'container',
-  });
+  const [endpoint, setEndpoint] = useState('');
   const [features, setFeatures] = useState({
     connect: true,
     files: true,
@@ -39,25 +23,46 @@ const Home: NextPage = () => {
     snapshots: true,
   });
 
-  const handleFormSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    setShow(false);
-    setText('Connecting...');
-
-    const { projectId, deviceId, corelliumDomain, containerId } =
-      inputs as TParams;
+  const handleCreateDevice = async () => {
+    setText('Creating device...');
 
     try {
-      setText('Getting token...');
-      // get JWT using access token
-      const res = await fetch('/api/auth', {
+      const createdDevice = await fetch('/api/createDevice', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          endpoint,
+        }),
+      });
+
+      setText('Device created successfully');
+
+      const json = await createdDevice.json();
+
+      handleCreateSession(json.projectId, json.instanceId);
+    } catch (error) {
+      console.error(error);
+      setText('Error creating device!');
+    }
+  };
+
+  const handleCreateSession = async (projectId: string, instanceId: string) => {
+    setText('Getting token...');
+
+    try {
+      setText('Getting token...');
+      // get JWT using access token
+      const res = await fetch('/api/createSession', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          domain: endpoint,
           projectId,
-          instanceId: deviceId,
+          instanceId,
           features,
         }),
       });
@@ -70,13 +75,11 @@ const Home: NextPage = () => {
       if (token) {
         setText('Token recieved and connecting ...');
 
-        // now that we have a JWT, set up the webplayer
-        // pass the id for the div that will hold the iframe as `containerId`
         const webplayer = new Webplayer({
           token,
-          domain: corelliumDomain,
-          deviceId,
-          containerId,
+          domain: endpoint,
+          deviceId: instanceId,
+          containerId: 'container',
         });
         webplayer.on('success', (data) => {
           console.log('data', data);
@@ -105,76 +108,40 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <form className={styles.form} onSubmit={handleFormSubmit}>
-          <div className={styles.fields}>
-            <div className={styles.field}>
-              <label htmlFor="projectId">Project ID</label>
+        <div className={styles.field}>
+          <label htmlFor="corelliumDomain">Enterprise Endpoint</label>
+          <input
+            type="text"
+            name="corelliumDomain"
+            onChange={(e) => setEndpoint(e.target.value)}
+          />
+        </div>
+        <div className={styles.features}>
+          {Object.keys(features).map((feature, index) => (
+            <div className={styles.featuresWrapper} key={index}>
               <input
-                type="text"
-                name="projectId"
+                type="checkbox"
+                name={feature}
+                id={feature}
+                checked={features[feature as keyof typeof features]}
                 onChange={(e) =>
-                  setInputs({ ...inputs, projectId: e.target.value })
+                  setFeatures({
+                    ...features,
+                    [feature]: e.target.checked,
+                  })
                 }
               />
+              <label className={styles.label} htmlFor={feature}>
+                {feature}
+              </label>
             </div>
-            <div className={styles.field}>
-              <label htmlFor="corelliumDomain">Corellium Domain</label>
-              <input
-                type="text"
-                name="corelliumDomain"
-                onChange={(e) =>
-                  setInputs({ ...inputs, projectId: e.target.value })
-                }
-              />
-            </div>
-            <div className={styles.field}>
-              <label htmlFor="deviceId">Device ID</label>
-              <input
-                type="text"
-                name="deviceId"
-                onChange={(e) =>
-                  setInputs({ ...inputs, projectId: e.target.value })
-                }
-              />
-            </div>
-
-            <div className={styles.field}>
-              <label htmlFor="containerId">Container ID</label>
-              <input
-                type="text"
-                name="containerId"
-                onChange={(e) =>
-                  setInputs({ ...inputs, projectId: e.target.value })
-                }
-              />
-            </div>
-            <button className={styles.btn} type="submit">
-              Connect
-            </button>
-          </div>
-
-          <div className={styles.features}>
-            {Object.keys(features).map((feature, index) => (
-              <div className={styles.featuresWrapper} key={index}>
-                <input
-                  type="checkbox"
-                  name={feature}
-                  id={feature}
-                  checked={features[feature as keyof typeof features]}
-                  onChange={(e) =>
-                    setFeatures({
-                      ...features,
-                      [feature]: e.target.checked,
-                    })
-                  }
-                />
-                <label className={styles.label} htmlFor={feature}>
-                  {feature}
-                </label>
-              </div>
-            ))}
-          </div>
-        </form>
+          ))}
+        </div>
+        <div className={styles.field}>
+          <button className={styles.btn} onClick={handleCreateDevice}>
+            Connect
+          </button>
+        </div>
         <h1>{text}</h1>
         <div
           className={styles.container}
