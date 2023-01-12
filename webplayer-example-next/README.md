@@ -25,6 +25,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 ### Installing the Corellium Webplayer
+
 Install the [Webplayer package](https://www.npmjs.com/package/@corellium/corellium-webplayer).
 
 ```bash
@@ -36,6 +37,7 @@ yarn add @corellium/corellium-webplayer
 ### Running the Webplayer
 
 After the package has been successfully installed, run the development server.
+
 ```bash
 npm run dev
 # or
@@ -47,20 +49,84 @@ yarn dev
 The web server should start running on `localhost:3000`.
 
 1. Click on the instantiated web server.
-    ![configure the server](public/configure-server.png)
+   ![configure the server](public/configure-server.png)
 
-2. Add your Project ID, Corellium Domain, Device ID, and Container ID then choose which features to include.
-   
-    The Corellium Domain is referenced in the web interface URL. You can find your Project ID and Instance ID using any of our APIs.
+2. Add your enterprise domain endpoint then choose which features to include.
 
-    The Container ID can be any unique identifier.
+---
 
 ## Server-Side App Code
 
-You can use code similar to this to convert your API token to a JWT for the user to authenticate with the Webplayer.
+There are two sections of server-side code that you will need to implement in your app.
+
+First section is to create a project, assign cores to it and create an instance using s snapshot.
+
+Second section is to exchange the API token for a JWT and start a web player session.
+
+### Creating a Project and Instance
+
+For this part you'd need to add your API token and snapshot ID to the code below.
 
 ```js
-// pages/api/auth.ts
+// pages/api/createDevice.ts
+
+import { NextApiHandler } from 'next';
+import { Corellium } from '@corellium/corellium-api';
+
+const handler: NextApiHandler = async (req, res) => {
+  const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+  if (!body.endpoint) {
+    throw new Error('Missing required parameters');
+  }
+  const flavor = 'iphone6';
+  const os = '12.5.6';
+  const apiToken = 'my_api_token'; // Add your API token
+  const endpoint = body.endpoint;
+  const snapshot = 'my_snapshot_id'; // Add your snapshot ID
+
+  try {
+    const corellium = new Corellium({
+      endpoint,
+      apiToken,
+    });
+
+    const project = await corellium.createProject('Webplayer Project');
+
+    await project.setQuotas({
+      cores: 2,
+    });
+
+    const instance = await project.createInstance({
+      name: 'Webplayer Device',
+      flavor,
+      os,
+      bootOptions: {
+        snapshot,
+      },
+    });
+
+    res.status(200).json({
+      instanceId: instance.id,
+      projectId: project.id,
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ error: `ERROR creating device: ${error.message}` });
+  }
+};
+
+export default handler;
+
+```
+
+### Exchange API token for JWT
+
+You can use code similar to below code to convert your API token to a JWT for the user to authenticate with the Webplayer.
+
+For this section you'd need to add your API token to the authorization header of the fetch request.
+
+```js
+// pages/api/createSession.ts
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -69,15 +135,28 @@ type Data = {
   error?: string;
 };
 
-const LOGIN_URL = 'https://ci-1.corellium.co/api/v1/webplayer';
+const defaultFeatures = {
+  powerManagement: true,
+  deviceControl: true,
+  deviceDelete: true,
+  profile: true,
+  images: true,
+  netmon: true,
+  strace: true,
+  system: true,
+};
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { token, projectId, instanceId, features } = req.body;
+  const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
 
-  if (!token || !projectId || !features || !instanceId) {
+  const { instanceId, projectId, domain, features } = body;
+
+  const LOGIN_URL = `${domain}/api/v1/webplayer`;
+
+  if (!projectId) {
     res.status(400).json({ error: 'Missing required parameters' });
     return;
   }
@@ -88,13 +167,16 @@ export default async function handler(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token,
+          Authorization: 'my_api_token', // Add your API token
         },
         body: JSON.stringify({
-          projectId,
           instanceId,
+          projectId,
           expiresIn: 18000,
-          features,
+          features: {
+            ...defaultFeatures,
+            ...features,
+          },
         }),
       });
 
@@ -104,15 +186,16 @@ export default async function handler(
 
       return;
     } catch (err: unknown) {
-      console.log('webplayer ERROR: ', err);
-      throw new Error('ERROR getting token from the server');
+      console.log('ERROR creating session: ', err);
+      res.status(500).send({ error: 'ERROR getting token from the server' });
     }
   }
 
   res.status(200).json({ method: 'API only support POST requests' });
 }
-
 ```
+
+---
 
 ## Client-side App Code
 
@@ -120,25 +203,62 @@ You can check out the example [client-side code](pages/index.tsx) for how to use
 
 ## Obtaining the JWT
 
-Your app code should create a request to obtain a JWT.
+Your app code should create a request to create a project and then obtain a JWT.
+
+### Create a Project code
 
 ```js
-// pages/index.tsx
+const handleCreateDevice = async () => {
+  setText('Creating device...');
 
-// get JWT using token
-const res = await fetch('/api/auth', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    token: process.env.ACCESS_TOKEN,
-    projectId: 'You project ID',
-    instanceId: 'Your device ID',
-    features: 'You requested features',
-  }),
-});
-const { token, ...data } = await res.json();
+  try {
+    const createdDevice = await fetch('/api/createDevice', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint,
+      }),
+    });
+
+    setText('Device created successfully');
+
+    const json = await createdDevice.json();
+
+    handleCreateSession(json.projectId, json.instanceId);
+  } catch (error) {
+    console.error(error);
+    setText('Error creating device!');
+  }
+};
+```
+
+### Create a session and obtain JWT token
+
+```js
+  const handleCreateSession = async (projectId: string, instanceId: string) => {
+    setText('Getting token...');
+
+    try {
+      setText('Getting token...');
+      // get JWT using access token
+      const res = await fetch('/api/createSession', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          domain: endpoint,
+          projectId,
+          instanceId,
+          features,
+        }),
+      });
+      const { token, ...data } = await res.json();
+      console.log('received JWT', token, data);
+    }
+  }
 ```
 
 ## Instantiating the Webplayer
@@ -154,9 +274,9 @@ import Webplayer from '@corellium/corellium-webplayer';
 // pass the id for the div that will hold the iframe as `containerId`
 const webplayer = new Webplayer({
   token,
-  domain: 'Corellium domain to connect to',
-  deviceId: 'Your device ID',
-  containerId: 'Your container ID (html element id)',
+  domain: endpoint,
+  deviceId: instanceId,
+  containerId: 'container', // this id is matched with the div with the same id in the HTML
 });
 ```
 
