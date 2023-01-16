@@ -57,142 +57,37 @@ The web server should start running on `localhost:3000`.
 
 ## Server-Side App Code
 
-There are two sections of server-side code that you will need to implement in your app.
-
-First section is to create a project, assign cores to it and create an instance using s snapshot.
-
-Second section is to exchange the API token for a JWT and start a web player session.
-
-### Creating a Project and Instance
-
-For this part you'd need to add your API token and snapshot ID to the code below.
+Add your API token and snapshot ID in order to create a project and instance, and then obtain a JWT.
 
 ```js
 // pages/api/createDevice.ts
 
-import { NextApiHandler } from 'next';
-import { Corellium } from '@corellium/corellium-api';
-
-const handler: NextApiHandler = async (req, res) => {
-  const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-  if (!body.endpoint) {
-    throw new Error('Missing required parameters');
-  }
-  const flavor = 'iphone6';
-  const os = '12.5.6';
-  const apiToken = 'my_api_token'; // Add your API token
-  const endpoint = body.endpoint;
-  const snapshot = 'my_snapshot_id'; // Add your snapshot ID
-
-  try {
-    const corellium = new Corellium({
-      endpoint,
-      apiToken,
-    });
-
-    const project = await corellium.createProject('Webplayer Project');
-
-    await project.setQuotas({
-      cores: 2,
-    });
-
-    const instance = await project.createInstance({
-      name: 'Webplayer Device',
-      flavor,
-      os,
-      bootOptions: {
-        snapshot,
-      },
-    });
-
-    res.status(200).json({
-      instanceId: instance.id,
-      projectId: project.id,
-    });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).json({ error: `ERROR creating device: ${error.message}` });
-  }
-};
-
-export default handler;
-
+const flavor = 'iphone6';
+const os = '12.5.6';
+const apiToken = 'my_api_token'; // Add your API token
+const endpoint = body.endpoint;
+const snapshot = 'my_snapshot_id'; // Add your snapshot ID
 ```
-
-### Exchange API token for JWT
-
-You can use code similar to below code to convert your API token to a JWT for the user to authenticate with the Webplayer.
-
-For this section you'd need to add your API token to the authorization header of the fetch request.
 
 ```js
 // pages/api/createSession.ts
 
-import type { NextApiRequest, NextApiResponse } from 'next';
-
-type Data = {
-  method?: string;
-  error?: string;
-};
-
-const defaultFeatures = {
-  powerManagement: true,
-  deviceControl: true,
-  deviceDelete: true,
-  profile: true,
-  images: true,
-  netmon: true,
-  strace: true,
-  system: true,
-};
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-
-  const { instanceId, projectId, domain, features } = body;
-
-  const LOGIN_URL = `${domain}/api/v1/webplayer`;
-
-  if (!projectId) {
-    res.status(400).json({ error: 'Missing required parameters' });
-    return;
-  }
-
-  if (req.method === 'POST') {
-    try {
-      const response = await fetch(LOGIN_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'my_api_token', // Add your API token
-        },
-        body: JSON.stringify({
-          instanceId,
-          projectId,
-          expiresIn: 18000,
-          features: {
-            ...defaultFeatures,
-            ...features,
-          },
-        }),
-      });
-
-      const data = await response.json();
-
-      res.status(200).json(data);
-
-      return;
-    } catch (err: unknown) {
-      console.log('ERROR creating session: ', err);
-      res.status(500).send({ error: 'ERROR getting token from the server' });
-    }
-  }
-
-  res.status(200).json({ method: 'API only support POST requests' });
-}
+const response = await fetch(LOGIN_URL, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'my_api_token', // Add your API token
+  },
+  body: JSON.stringify({
+    instanceId,
+    projectId,
+    expiresIn: 18000,
+    features: {
+      ...defaultFeatures,
+      ...features,
+    },
+  }),
+});
 ```
 
 ---
@@ -200,66 +95,6 @@ export default async function handler(
 ## Client-side App Code
 
 You can check out the example [client-side code](pages/index.tsx) for how to use the Webplayer in your app.
-
-## Obtaining the JWT
-
-Your app code should create a request to create a project and then obtain a JWT.
-
-### Create a Project code
-
-```js
-const handleCreateDevice = async () => {
-  setText('Creating device...');
-
-  try {
-    const createdDevice = await fetch('/api/createDevice', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        endpoint,
-      }),
-    });
-
-    setText('Device created successfully');
-
-    const json = await createdDevice.json();
-
-    handleCreateSession(json.projectId, json.instanceId);
-  } catch (error) {
-    console.error(error);
-    setText('Error creating device!');
-  }
-};
-```
-
-### Create a session and obtain JWT token
-
-```js
-  const handleCreateSession = async (projectId: string, instanceId: string) => {
-    setText('Getting token...');
-
-    try {
-      setText('Getting token...');
-      // get JWT using access token
-      const res = await fetch('/api/createSession', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          domain: endpoint,
-          projectId,
-          instanceId,
-          features,
-        }),
-      });
-      const { token, ...data } = await res.json();
-      console.log('received JWT', token, data);
-    }
-  }
-```
 
 ## Instantiating the Webplayer
 
