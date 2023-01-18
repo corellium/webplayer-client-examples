@@ -67,11 +67,7 @@ const Home: NextPage = () => {
         }),
       });
       const { token, ...data } = await res.json();
-      console.log(
-        'consthandleFormSubmit:FormEventHandler<HTMLFormElement>= ~ token',
-        token,
-        data
-      );
+      console.log('received JWT', token, data);
       if (token) {
         setText('Token recieved and connecting ...');
 
