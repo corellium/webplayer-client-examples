@@ -37,14 +37,14 @@ app.post('/api/auth', jsonParser, async (req, res) => {
       headers: {
         'Content-Type': 'application/json',
         // your API token
-        'Authorization': req.body.token,
+        Authorization: req.body.token,
       },
       body: JSON.stringify({
         // you must create the project and instance first before you can use the Webplayer
         // you can use the Corellium website or API to do this.
         projectId: req.body.projectId,
         instanceId: req.body.instanceId,
-        expiresIn: 18000,
+        expiresIn: 18000, // value is in seconds, 18000 = 5 hours
         // a list of features you would like enabled in the Webplayer
         features: req.body.features,
       }),
@@ -74,7 +74,7 @@ You can include code that handles loading and error conditions.
 <head>
   <!-- app.js will contain the client JS code -->
   <script src="app.js" type="module"></script>
-  <script src="https://unpkg.com/@corellium/corellium-webplayer@1.0.10/dist/index.global.js"></script>
+  <script src="https://unpkg.com/@corellium/corellium-webplayer@1.0.11/dist/index.global.js"></script>
 </head>
 <body>
   <h2>Demo</h2>

@@ -42,7 +42,7 @@ export default async function handler(
         body: JSON.stringify({
           instanceId,
           projectId,
-          expiresIn: 18000,
+          expiresIn: 18000, // value is in seconds, 18000 = 5 hours
           features: {
             ...defaultFeatures,
             ...features,
