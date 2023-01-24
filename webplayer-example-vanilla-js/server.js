@@ -28,7 +28,7 @@ app.post('/api/auth', jsonParser, async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: req.body.token,
+        Authorization: req.body.token, // your API token
       },
       body: JSON.stringify({
         projectId: req.body.projectId,
