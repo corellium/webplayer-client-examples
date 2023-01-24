@@ -81,7 +81,7 @@ const response = await fetch(LOGIN_URL, {
   body: JSON.stringify({
     instanceId,
     projectId,
-    expiresIn: 18000, // value is in seconds, 18000 = 5 hours
+    expiresIn: 18000, // 60 * 60 * 5
     features: {
       ...defaultFeatures,
       ...features,
