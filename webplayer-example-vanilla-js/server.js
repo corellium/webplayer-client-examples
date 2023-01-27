@@ -28,12 +28,12 @@ app.post('/api/auth', jsonParser, async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': req.body.token,
+        Authorization: req.body.token, // your API token
       },
       body: JSON.stringify({
         projectId: req.body.projectId,
         instanceId: req.body.deviceId,
-        expiresIn: 18000,
+        expiresIn: 60 * 60 * 5, // value is in seconds
         features: req.body.features,
       }),
       agent: httpsAgent,
