@@ -44,7 +44,7 @@ app.post('/api/auth', jsonParser, async (req, res) => {
         // you can use the Corellium website or API to do this.
         projectId: req.body.projectId,
         instanceId: req.body.instanceId,
-        expiresIn: 18000, // 60 * 60 * 5
+        expiresIn: 60 * 60 * 5, // value is in seconds
         // a list of features you would like enabled in the Webplayer
         features: req.body.features,
       }),
