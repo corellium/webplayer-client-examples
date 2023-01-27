@@ -25,7 +25,7 @@ You can use code similar to this to convert your API token to a JWT for the user
 
 ```js
 app.post('/api/auth', jsonParser, async (req, res) => {
-  const loginUrl = 'https://[corellium API domain]/api/v1/webplayer';
+  const loginUrl = new URL('/api/v1/webplayer', 'https://your-domain.corellium.com').href;
 
   const httpsAgent = new https.Agent({
     rejectUnauthorized: false,

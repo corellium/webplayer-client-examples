@@ -21,10 +21,8 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-
   const { instanceId, projectId, domain, features } = body;
-
-  const LOGIN_URL = `${domain}/api/v1/webplayer`;
+  const LOGIN_URL = new URL('/api/v1/webplayer', domain).href;
 
   if (!projectId) {
     res.status(400).json({ error: 'Missing required parameters' });
