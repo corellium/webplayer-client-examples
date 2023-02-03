@@ -2,7 +2,7 @@
   "name": "webplayer-next",
   "publisher": "corellium",
   "displayName": "Corellium Webplayer Client",
-  "description": "A Javascript client to embed the Corellium Webplayer",
+  "description": "A JavaScript client to embed the Corellium Webplayer",
   "icon": "icon.png",
   "version": "0.1.0",
   "private": true,
