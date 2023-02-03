@@ -1,8 +1,8 @@
 {
   "name": "webplayer-vanilla-js",
   "publisher": "corellium",
-  "displayName": "Corellium Web Player Client Example - vanilla",
-  "description": "Vanilla JS example for the Corellium Web Player",
+  "displayName": "Corellium Webplayer Client Example - vanilla",
+  "description": "Vanilla JS example for the Corellium Webplayer",
   "icon": "icon.png",
   "version": "1.0.0",
   "main": "server.js",

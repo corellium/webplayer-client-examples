@@ -32,7 +32,7 @@ app.post('/api/auth', jsonParser, async (req, res) => {
       },
       body: JSON.stringify({
         projectId: req.body.projectId,
-        instanceId: req.body.deviceId,
+        instanceId: req.body.instanceId,
         expiresIn: 60 * 60 * 5, // value is in seconds
         features: req.body.features,
       }),

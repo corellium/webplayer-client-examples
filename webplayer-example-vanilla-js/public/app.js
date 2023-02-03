@@ -2,8 +2,7 @@ import { apiToken } from './token.js';
 
 const CorelliumWebplayer = window.CorelliumWebplayer.default;
 
-
-const deviceId = 'Your device ID';
+const instanceId = 'Your device ID';
 const corelliumDomain = 'https://app.corellium.co';
 const projectId = 'Your project ID';
 const features = {
@@ -43,7 +42,7 @@ const containerId = 'container';
         },
         body: JSON.stringify({
           token: apiToken,
-          deviceId,
+          instanceId,
           projectId,
           features,
         }),
@@ -57,7 +56,7 @@ const containerId = 'container';
       const webplayer = new CorelliumWebplayer({
         token,
         domain: corelliumDomain,
-        deviceId,
+        instanceId,
         containerId,
       });
 

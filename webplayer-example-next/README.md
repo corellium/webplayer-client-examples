@@ -110,7 +110,7 @@ import Webplayer from '@corellium/corellium-webplayer';
 const webplayer = new Webplayer({
   token,
   domain: endpoint,
-  deviceId: instanceId,
+  instanceId,
   containerId: 'container', // this id is matched with the div with the same id in the HTML
 });
 ```
