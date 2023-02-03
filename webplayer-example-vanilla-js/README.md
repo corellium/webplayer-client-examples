@@ -124,7 +124,7 @@ const CorelliumWebplayer = window.CorelliumWebplayer.default;
 const webplayer = new corelliumWebplayer({
   token,
   domain: corelliumDomain,
-  deviceId,
+  instanceId,
   containerId,
 });
 ```

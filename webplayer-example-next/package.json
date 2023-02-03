@@ -1,8 +1,8 @@
 {
   "name": "webplayer-next",
   "publisher": "corellium",
-  "displayName": "Corellium Web Player Client",
-  "description": "A Javascript client to embed the Corellium Web Player",
+  "displayName": "Corellium Webplayer Client",
+  "description": "A Javascript client to embed the Corellium Webplayer",
   "icon": "icon.png",
   "version": "0.1.0",
   "private": true,
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@corellium/corellium-api": "^1.5.0",
-    "@corellium/corellium-webplayer": "^1.0.11",
+    "@corellium/corellium-webplayer": "^1.0.12",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"

@@ -74,7 +74,7 @@ const Home: NextPage = () => {
         const webplayer = new Webplayer({
           token,
           domain: endpoint,
-          deviceId: instanceId,
+          instanceId,
           containerId: 'container',
         });
         webplayer.on('success', (data) => {
@@ -98,8 +98,8 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Corellium - Web Player Example</title>
-        <meta name="description" content="Corellium Web Player Example" />
+        <title>Corellium - Webplayer Example</title>
+        <meta name="description" content="Corellium Webplayer Example" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

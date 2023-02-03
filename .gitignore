@@ -223,5 +223,4 @@ $RECYCLE.BIN/
 
 # App auth related
 # token.sample.js
-*/yarn.lock
 */node_modules
