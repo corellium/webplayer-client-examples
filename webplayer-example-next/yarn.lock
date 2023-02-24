@@ -27,10 +27,10 @@
     xhr2 "^0.2.0"
     yazl "^2.5.1"
 
-"@corellium/corellium-webplayer@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@corellium/corellium-webplayer/-/corellium-webplayer-1.0.12.tgz#b58f4c8acfb9a28ce60a66f0ede8db54649e465c"
-  integrity sha512-1sXlPhSEn0Z33A3f3nJ0Vp8L6WJVtZvI9ZIADeYH45ePULelv3vfMrjERUHwSLBert5PZmzM8YMZ8R+y8cfPYw==
+"@corellium/corellium-webplayer@^1.0.17":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@corellium/corellium-webplayer/-/corellium-webplayer-1.0.17.tgz#02a1bafeb42161060bd2fdf7f39c18c513f3cc79"
+  integrity sha512-TZ9KKVxmp0JTv+ZzVDNYWx8UVmSbKMH12K939ZXq8VLoI/z1lJ0kbJSD/7EXY/e5Z9XtdHMzp9MjspNd19Ohrw==
   dependencies:
     post-me "^0.4.5"
 
