@@ -18,6 +18,9 @@ Your API token should be kept private and secure at all times.
 
 To use the Webplayer you will need to exchange the API token for a JWT.
 
+This example will automatically create a new project and Webplayer device. Avoid changing the configuration to reference a device on a shared project.
+- Note: Each Webplayer device should be run in its own Corellium project. Do not modify this example to point to an existing device on a shared project, since other devices on that project will likely be deleted.
+
 ---
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

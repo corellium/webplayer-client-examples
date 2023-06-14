@@ -16,8 +16,10 @@ You can generate an API token using the domain admin interface.
 
 Your API token should be kept private and secure at all times.
 
-In order to use the Webplayer you will need to exchange the API token for a JWT.
-You can do this by creating an API proxy in Express.js or another server-side language.
+To use the Webplayer you will need to exchange the API token for a JWT. You can do this by creating an API proxy in Express.js or another server-side language.
+
+This example will use an existing instance that you have already configured. This instance should exist alone in a project.
+- Note: Each Webplayer device should be run in its own Corellium project. If your Webplayer device shares a project with other devices, those devices will likely be deleted.
 
 ## Server-side app code
 
@@ -66,7 +68,7 @@ app.post('/api/auth', jsonParser, async (req, res) => {
 
 Your HTML should include an element to contain the Corellium iframe. An example is shown below.
 
-When the iframe is loaded it will replace the contents of "container" div with the Corellium Webplayer webpage.
+When the iframe is loaded it will replace the contents of the `container` div with the Corellium Webplayer webpage.
 
 You can include code that handles loading and error conditions.
 
