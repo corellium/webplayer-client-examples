@@ -10,9 +10,9 @@
     regenerator-runtime "^0.13.11"
 
 "@corellium/corellium-api@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@corellium/corellium-api/-/corellium-api-1.5.0.tgz#2519705d5f26a1208c1a5e558b9a7c1560102f79"
-  integrity sha512-wCmeu00Yao5IdTnkJGu2qIqJep68n4KMb/gD9xyWLJO+GSj/2qr0RRcS2w6a/2rsNnq3tqgPsByK4AULrmLJCg==
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@corellium/corellium-api/-/corellium-api-1.7.0.tgz#b5f3b83610f1e2871f82640cbc4792139e51556a"
+  integrity sha512-NCBFQrEUuwzcuG1aEFhmIJz8SRMWb6l1ceIeJiC4YOr8FF+x1PUkoT/jAXH166xMl6VDcIZjA/mwqK9WoSKT0A==
   dependencies:
     cross-fetch "^3.1.5"
     fast-stable-stringify "^1.0.0"
@@ -28,9 +28,9 @@
     yazl "^2.5.1"
 
 "@corellium/corellium-webplayer@^1.0.17":
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/@corellium/corellium-webplayer/-/corellium-webplayer-1.0.17.tgz#02a1bafeb42161060bd2fdf7f39c18c513f3cc79"
-  integrity sha512-TZ9KKVxmp0JTv+ZzVDNYWx8UVmSbKMH12K939ZXq8VLoI/z1lJ0kbJSD/7EXY/e5Z9XtdHMzp9MjspNd19Ohrw==
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@corellium/corellium-webplayer/-/corellium-webplayer-1.0.18.tgz#8908413d54a59ca16d3c4f64959919050e690b1f"
+  integrity sha512-ZefvHsSioLlYM9FroO3CWKszRuvRhledv52cJyPP3IgkqMbMFi9U7CTK3Y+ozfExq+siusnD1UyUQC7rPvBaVQ==
   dependencies:
     post-me "^0.4.5"
 
@@ -471,11 +471,11 @@ core-util-is@~1.0.0:
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
 cross-fetch@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
-  integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.6.tgz#bae05aa31a4da760969756318feeee6e70f15d6c"
+  integrity sha512-riRvo06crlE8HiqOwIpQhxwdOk4fOeR7FVM/wXoxchFEqMNUjvbs3bfo4OTgMEMHzppd4DxFBDbyySj8Cv781g==
   dependencies:
-    node-fetch "2.6.7"
+    node-fetch "^2.6.11"
 
 cross-spawn@^7.0.2:
   version "7.0.3"
@@ -1548,10 +1548,10 @@ next@12.3.1:
     "@next/swc-win32-ia32-msvc" "12.3.1"
     "@next/swc-win32-x64-msvc" "12.3.1"
 
-node-fetch@2.6.7:
-  version "2.6.7"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
-  integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
+node-fetch@^2.6.11:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.12.tgz#02eb8e22074018e3d5a83016649d04df0e348fba"
+  integrity sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==
   dependencies:
     whatwg-url "^5.0.0"
 
@@ -1786,9 +1786,9 @@ react@18.2.0:
     loose-envify "^1.1.0"
 
 readable-stream@^2.0.0, readable-stream@^2.3.3, readable-stream@~2.3.6:
-  version "2.3.7"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.7.tgz#1eca1cf711aef814c04f62252a36a62f6cb23b57"
-  integrity sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.8.tgz#91125e8042bba1b9887f49345f6277027ce8be9b"
+  integrity sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==
   dependencies:
     core-util-is "~1.0.0"
     inherits "~2.0.3"
