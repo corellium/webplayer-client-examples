@@ -41,8 +41,14 @@ const Home: NextPage = () => {
 
       const json = await createdDevice.json();
 
-      handleCreateSession(json.projectId, json.instanceId);
-    } catch (error) {
+      if (json.error) {
+        setText(json.error);
+      }
+
+      if (!json.error) {
+        handleCreateSession(json.projectId, json.instanceId);
+      }
+    } catch (error: unknown) {
       console.error(error);
       setText('Error creating device!');
     }
@@ -66,8 +72,10 @@ const Home: NextPage = () => {
           features,
         }),
       });
+
       const { token, ...data } = await res.json();
       console.log('received JWT', token, data);
+
       if (token) {
         setText('Token recieved and connecting ...');
 
@@ -77,6 +85,7 @@ const Home: NextPage = () => {
           instanceId,
           containerId: 'container',
         });
+
         webplayer.on('success', (data) => {
           console.log('data', data);
           setText('Connected!');
@@ -84,9 +93,11 @@ const Home: NextPage = () => {
             setShow(true);
           }, 1000);
         });
+
         webplayer.on('error', (data) => {
-          console.error('next error', data);
-          setText('Error!');
+          console.error('webplayer error', data);
+          // @ts-ignore
+          setText(data.message);
         });
       }
     } catch (err) {
