@@ -6,6 +6,8 @@ on:
       - main
       - master
 
+permissions: read-all
+
 jobs:
   check-quality:
     runs-on: ubuntu-latest
