@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 
 const jsonParser = bodyParser.json();
 
-const helmet = require('helmet')
-app.use(helmet())
+const helmet = require('helmet');
+app.use(helmet());
 
 app.use(
   cors({
