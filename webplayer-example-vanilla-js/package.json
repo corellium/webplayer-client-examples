@@ -19,6 +19,7 @@
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "helmet": "^8.1.0",
     "https": "^1.0.0",
     "node-fetch": "^3.3.2",
     "post-me": "^0.4.5"
