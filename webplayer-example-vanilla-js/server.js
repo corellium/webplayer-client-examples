@@ -11,7 +11,6 @@ const jsonParser = bodyParser.json();
 const helmet = require('helmet');
 app.use(helmet());
 
-// Enhanced CORS configuration
 app.use(
   cors({
     origin: '*',
@@ -28,10 +27,8 @@ app.post('/api/auth', jsonParser, async (req, res) => {
   console.log('Received auth request at:', new Date().toISOString());
   console.log('Request headers:', req.headers);
 
-  const isDevelopment = process.env.NODE_ENV !== 'production';
-  const baseUrl = isDevelopment
-    ? 'https://ci-1.corellium.co'
-    : 'https://ci-1.corellium.co';
+  // Change this URL to your domain URL
+  const baseUrl = ''; // example - https://app.corellium.co in production
 
   const loginUrl = `${baseUrl}/api/v1/webplayer`;
 
@@ -59,14 +56,6 @@ app.post('/api/auth', jsonParser, async (req, res) => {
       rejectUnauthorized: false,
     }),
   };
-
-  // if (!isDevelopment) {
-  //   options.agent = new https.Agent({
-  //     rejectUnauthorized: true,
-  //     secureProtocol: 'TLSv1_2_method',
-  //     ciphers: 'HIGH:!aNULL:!MD5',
-  //   });
-  // }
 
   try {
     console.log('Making request to:', loginUrl);

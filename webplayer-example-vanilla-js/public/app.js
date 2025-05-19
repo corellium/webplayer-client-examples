@@ -1,9 +1,9 @@
 import { apiToken } from './token.js';
 const CorelliumWebplayer = window.CorelliumWebplayer.default;
 
-const instanceId = 'b2c20494-3246-4686-9c65-b239710a0d9f';
-const corelliumDomain = 'https://ci-1.corellium.co';
-const projectId = '00d6a900-321f-4ec4-9d93-88ebcf7b9e03';
+const instanceId = 'The device ID goes here';
+const corelliumDomain = 'https://app.corellium.co';
+const projectId = 'the project ID goes here';
 const features = {
   apps: true,
   console: true,
@@ -48,7 +48,6 @@ const containerId = 'container';
           projectId,
           features,
         }),
-        // Add timeout
         signal: AbortSignal.timeout(10000), // 10 second timeout
       });
 
@@ -70,6 +69,8 @@ const containerId = 'container';
       const { token, ...data } = responseData;
       console.log('Token extracted:', token ? 'Token exists' : 'No token');
 
+      // now that we have a JWT, set up the webplayer
+      // pass the id for the div that will hold the iframe as `containerId`
       const webplayer = new CorelliumWebplayer({
         token,
         domain: corelliumDomain,
