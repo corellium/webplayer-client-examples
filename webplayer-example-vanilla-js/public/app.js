@@ -2,7 +2,7 @@ import { apiToken } from './token.js';
 const CorelliumWebplayer = window.CorelliumWebplayer.default;
 
 const instanceId = 'b2c20494-3246-4686-9c65-b239710a0d9f';
-const corelliumDomain = 'http://localhost:9000';
+const corelliumDomain = 'https://ci-1.corellium.co';
 const projectId = '00d6a900-321f-4ec4-9d93-88ebcf7b9e03';
 const features = {
   apps: true,

@@ -30,8 +30,9 @@ app.post('/api/auth', jsonParser, async (req, res) => {
 
   const isDevelopment = process.env.NODE_ENV !== 'production';
   const baseUrl = isDevelopment
-    ? 'http://localhost:9000'
-    : 'https://app.corellium.co';
+    ? 'https://ci-1.corellium.co'
+    : 'https://ci-1.corellium.co';
+
   const loginUrl = `${baseUrl}/api/v1/webplayer`;
 
   console.log('Incoming request data:', {
@@ -54,15 +55,18 @@ app.post('/api/auth', jsonParser, async (req, res) => {
       expiresIn: 60 * 60 * 5,
       features: req.body.features,
     }),
+    agent: new https.Agent({
+      rejectUnauthorized: false,
+    }),
   };
 
-  if (!isDevelopment) {
-    options.agent = new https.Agent({
-      rejectUnauthorized: true,
-      secureProtocol: 'TLSv1_2_method',
-      ciphers: 'HIGH:!aNULL:!MD5',
-    });
-  }
+  // if (!isDevelopment) {
+  //   options.agent = new https.Agent({
+  //     rejectUnauthorized: true,
+  //     secureProtocol: 'TLSv1_2_method',
+  //     ciphers: 'HIGH:!aNULL:!MD5',
+  //   });
+  // }
 
   try {
     console.log('Making request to:', loginUrl);
