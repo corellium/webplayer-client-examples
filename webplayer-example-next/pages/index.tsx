@@ -21,6 +21,7 @@ const Home: NextPage = () => {
     portForwarding: true,
     sensors: true,
     snapshots: true,
+    powerManagement: true,
   });
 
   const handleCreateDevice = async () => {
