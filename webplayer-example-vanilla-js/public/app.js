@@ -24,6 +24,7 @@ const features = {
   strace: true,
   system: true,
   connect: true,
+  powerManagement: true,
 };
 
 // the ID of the element to contain the iframe
