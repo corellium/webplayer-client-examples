@@ -1,9 +1,9 @@
 import { apiToken } from './token.js';
 const CorelliumWebplayer = window.CorelliumWebplayer.default;
 
-const instanceId = 'The device ID goes here';
-const corelliumDomain = 'https://app.corellium.co';
-const projectId = 'the project ID goes here';
+const instanceId = 'd0a53ece-284c-4211-b9da-ba44aced80a0';
+const corelliumDomain = 'http://localhost:8888';
+const projectId = '4acb7173-6bfb-49ea-bfb0-3a183a4c2061';
 const features = {
   apps: true,
   console: true,

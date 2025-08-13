@@ -1,8 +1,8 @@
 const express = require('express');
-const fetch = (...args) =>
-  import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = require('node-fetch');
 const app = express();
 const https = require('https');
+const http = require('http');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -28,7 +28,7 @@ app.post('/api/auth', jsonParser, async (req, res) => {
   console.log('Request headers:', req.headers);
 
   // Change this URL to your domain URL
-  const baseUrl = ''; // example - https://app.corellium.co in production
+  const baseUrl = 'http://localhost:8888'; // example - https://app.corellium.co in production
 
   const loginUrl = `${baseUrl}/api/v1/webplayer`;
 
@@ -51,9 +51,6 @@ app.post('/api/auth', jsonParser, async (req, res) => {
       instanceId: req.body.instanceId,
       expiresIn: 60 * 60 * 5,
       features: req.body.features,
-    }),
-    agent: new https.Agent({
-      rejectUnauthorized: false,
     }),
   };
 
@@ -94,7 +91,7 @@ app.post('/api/auth', jsonParser, async (req, res) => {
     res.send(data);
     console.log('Response sent successfully');
   } catch (err) {
-    console.error('Webplayer Error:', err.message);
+    console.error('Webplayer Server Error:', err.message);
     console.error('Error stack:', err.stack);
     res.status(500).json({
       error: 'Failed to connect to webplayer service',
