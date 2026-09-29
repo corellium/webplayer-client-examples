@@ -22,7 +22,7 @@ export default async function handler(
 ) {
   const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
   const { instanceId, projectId, domain, features } = body;
-  const LOGIN_URL = new URL('/api/v1/webplayer', domain).href;
+  const LOGIN_URL = new URL('/api/v3/webplayer', domain).href;
 
   if (!projectId) {
     res.status(400).json({ error: 'Missing required parameters' });
