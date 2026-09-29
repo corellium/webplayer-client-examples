@@ -30,7 +30,7 @@ app.post('/api/auth', jsonParser, async (req, res) => {
   // Change this URL to your domain URL
   const baseUrl = ''; // example - https://app.corellium.co in production
 
-  const loginUrl = `${baseUrl}/api/v1/webplayer`;
+  const loginUrl = `${baseUrl}/api/v3/webplayer`;
 
   console.log('Incoming request data:', {
     projectId: req.body?.projectId,
